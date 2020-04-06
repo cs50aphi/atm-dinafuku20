@@ -28,7 +28,7 @@ public class ATM
             System.out.println("");
             // Display user prompt for (D)eposit, (W)ithdraw, (C)heck Balance, (T)ransfer, (Q)uit
             System.out.print("Would you like to: (D)eposit, (W)ithdraw, (C)heck Balance, (T)ransfer, (Q)uit? ");
-            String response = in.nextLine();
+            String response = in.next();
             // switch based on respone
             switch (response)
             {
