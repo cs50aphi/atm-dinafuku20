@@ -15,6 +15,8 @@ public class ATM
         // Initialize variables
         boolean done = false;
         int transaction = 0;
+        int choice;
+        int amount;
 
         // Greet user
         System.out.println("");
@@ -23,19 +25,20 @@ public class ATM
         // while done is false:
         while (!done)
         {
+            System.out.println("");
             // Display user prompt for (D)eposit, (W)ithdraw, (C)heck Balance, (T)ransfer, (Q)uit
             System.out.print("Would you like to: (D)eposit, (W)ithdraw, (C)heck Balance, (T)ransfer, (Q)uit? ");
             String response = in.nextLine();
-            int choice;
-            int amount;
             // switch based on respone
             switch (response)
             {
                 // "D" or "d" prompt user to choose either their checking or savings, ask deposit amount, add to the specified account, add operation costs
                 case "D":
                 case "d":
+                    // prompt user for account
                     System.out.print("Deposit to: (1)Checking or (2)Savings? ");
                     choice = in.nextInt();
+                    // prompt for credits
                     System.out.print("How many credits do you want to deposit? ");
                     amount = in.nextInt();
                     if (choice == 1)
@@ -46,16 +49,21 @@ public class ATM
                     {
                         savings.deposit(amount);
                     }
+                    // print out balance for both accounts
                     System.out.println("Your checking account has " + checking.getBalance() + " credits.");
                     System.out.println("Your savings account has " + savings.getBalance() + " credits.");
                     transaction++;
                     break;
+                // Withdraw from checkin or savings based on user input
                 case "W":
                 case "w":
+                    // prompt user for account
                     System.out.print("Withdraw from: (1)Checking or (2)Savings? ");
                     choice = in.nextInt();
+                    // prompt for credits to withdraw
                     System.out.print("How many credits do you want to withdraw? ");
                     amount = in.nextInt();
+                    // check for insufficient funds
                     if (choice == 1 && amount > checking.getBalance())
                     {
                         System.out.println("Insufficient funds.");
@@ -66,6 +74,7 @@ public class ATM
                     }
                     else
                     {
+                        // withdraw from specified account
                         if (choice == 1)
                         {
                             checking.withdraw(amount);
@@ -74,6 +83,7 @@ public class ATM
                         {
                             savings.withdraw(amount);
                         }
+                        // print out balance for both accounts
                         System.out.println("Your checking account has " + checking.getBalance() + " credits.");
                         System.out.println("Your savings account has " + savings.getBalance() + " credits.");
                         transaction++;
@@ -81,16 +91,20 @@ public class ATM
                     break;
                 case "C":
                 case "c":
+                    // just print out balance for both accounts
                     System.out.println("Your checking account has " + checking.getBalance() + " credits.");
                     System.out.println("Your savings account has " + savings.getBalance() + " credits.");
                     transaction++;
                     break;
                 case "T":
                 case "t":
-                    System.out.print("Transfer from: (1)Checking to Savings or (2) Savings to Checking? ");
+                    // prompt for transfer
+                    System.out.print("Transfer from: (1)Checking to Savings or (2)Savings to Checking? ");
                     choice = in.nextInt();
+                    // prompt for amount
                     System.out.print("Amount to transfer? ");
                     amount = in.nextInt();
+                    // check for insufficient funds
                     if (choice == 1 && amount > checking.getBalance())
                     {
                         System.out.println("Insufficient funds.");
@@ -101,6 +115,7 @@ public class ATM
                     }
                     else
                     {
+                        // transfer by depositing from one acc and withdrawing from another
                         if (choice == 1)
                         {
                             checking.withdraw(amount);
@@ -111,6 +126,7 @@ public class ATM
                             savings.withdraw(amount);
                             checking.deposit(amount);
                         }
+                        // print out balance
                         System.out.println("Your checking account has " + checking.getBalance() + " credits.");
                         System.out.println("Your savings account has " + savings.getBalance() + " credits.");
                         transaction++;
@@ -118,13 +134,15 @@ public class ATM
                     break;
                 case "Q":
                 case "q":
+                    // quit out by setting done to true, breaking the loop
                     done = true;
                     break;
             }
-            System.out.println(transaction);
+            // calculate interest every five operations and print balance
             if (transaction == 5)
             {
                 savings.interest();
+                System.out.println("");
                 System.out.println("Interest calculated!");
                 System.out.println("Your checking account has " + checking.getBalance() + " credits.");
                 System.out.println("Your savings account has " + savings.getBalance() + " credits.");
